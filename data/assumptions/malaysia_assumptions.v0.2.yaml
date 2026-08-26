@@ -1,0 +1,155 @@
+# Malaysia assumptions — version 0.2 (DEMO)
+# Created from a human-approved market update (see data/sources/market_update.cress_sac.json).
+# ONLY change vs v0.1: ASM-CRESS-SAC moves from a provisional placeholder to an approved value.
+# This is the "after" state of the closed loop. Still demo-grade / pre-feasibility.
+#
+# confidence:      high | medium | low | demo
+# reviewer_status: approved | pending_review | needs_review | demo_seed
+# scenario ids:    baseline_grid | solar_atap | cress | bess | solar_cress
+
+meta:
+  country: Malaysia
+  version: "0.2"
+  created: "2026-07-01"
+  grade: demo
+  owner_agent: energy-scenario-agent
+  reviewed_by: "Demo Reviewer"
+  created_from_market_update: "MU-CRESS-SAC-2026-07-01"
+  supersedes: "0.1"
+  notes: >
+    Demo-grade assumptions. Version 0.2 records a human-approved update to the CRESS
+    System Access Charge from the source monitor. No official rate is claimed; the
+    value remains a demo/pre-feasibility figure for illustration.
+
+assumptions:
+  - id: ASM-GRID-TARIFF-AVG
+    label: "Average grid tariff (from demo bill)"
+    value: 0.452
+    unit: "MYR/kWh"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["baseline_grid", "solar_atap", "cress", "bess", "solar_cress"]
+    caveat: "Derived from the demo baseline bill. Demo-grade until a real bill/CSV is uploaded."
+
+  - id: ASM-GRID-EMISSION-FACTOR
+    label: "Grid emission factor (Peninsular Malaysia)"
+    value: 0.74
+    unit: "tCO2e/MWh"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["baseline_grid", "solar_atap", "cress", "bess", "solar_cress"]
+    caveat: "Pre-feasibility estimate. Replace with an authoritative factor before any customer claim."
+
+  - id: ASM-SOLAR-RESOURCE-JOHOR
+    label: "Solar resource / specific yield (Johor)"
+    value: 1400
+    unit: "kWh/kWp/year"
+    source_id: SRC-NASA-POWER
+    confidence: medium
+    reviewer_status: pending_review
+    affected_scenarios: ["solar_atap", "solar_cress"]
+    caveat: "To be populated from NASA POWER for the actual site. Placeholder until fetched."
+
+  - id: ASM-SOLAR-ATAP-SIZE
+    label: "On-site rooftop solar size (Solar ATAP, indicative)"
+    value: 3000
+    unit: "kWp"
+    source_id: SRC-TNB-SOLAR-ATAP
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["solar_atap", "solar_cress"]
+    caveat: "Indicative rooftop capacity. Requires a roof/structural survey to confirm."
+
+  - id: ASM-SOLAR-CAPEX
+    label: "On-site solar capex (indicative)"
+    value: 3200
+    unit: "MYR/kWp"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["solar_atap", "solar_cress"]
+    caveat: "Indicative only. Not a quote."
+
+  - id: ASM-SOLAR-LIFETIME
+    label: "Solar asset lifetime (for levelised cost)"
+    value: 25
+    unit: "years"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["solar_atap", "solar_cress"]
+    caveat: "Planning assumption for pre-feasibility levelised cost only."
+
+  - id: ASM-SOLAR-OM-UPLIFT
+    label: "Solar O&M + degradation uplift on levelised cost"
+    value: 15
+    unit: "%"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["solar_atap", "solar_cress"]
+    caveat: "Simplified uplift for pre-feasibility. Not a detailed financial model."
+
+  - id: ASM-CRESS-PPA-RATE
+    label: "Renewable PPA energy rate (indicative)"
+    value: 0.38
+    unit: "MYR/kWh"
+    source_id: SRC-DEMO-SEED
+    confidence: low
+    reviewer_status: needs_review
+    affected_scenarios: ["cress", "solar_cress"]
+    caveat: "Indicative pre-feasibility figure. NOT an official or guaranteed PPA rate."
+
+  - id: ASM-CRESS-SAC
+    label: "CRESS System Access Charge (approved from source update)"
+    value: 0.045
+    unit: "MYR/kWh"
+    provisional: false
+    source_id: SRC-CRESS-SAC
+    confidence: medium
+    reviewer_status: approved
+    reviewed_by: "Demo Reviewer"
+    affected_scenarios: ["cress", "solar_cress"]
+    caveat: "Demo/pre-feasibility figure approved from the source monitor for illustration. Not an official published charge."
+
+  - id: ASM-CRESS-RE-SHARE
+    label: "Renewable share sourced via CRESS (target-aligned)"
+    value: 40
+    unit: "% of annual use"
+    source_id: SRC-CRESS-GUIDELINE
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["cress"]
+    caveat: "Illustrative allocation to meet the 40%-by-2030 target. Pre-feasibility only."
+
+  - id: ASM-BESS-CAPEX
+    label: "Battery energy storage capex (indicative)"
+    value: 4000000
+    unit: "MYR"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["bess"]
+    caveat: "Indicative system cost. Not a quote."
+
+  - id: ASM-BESS-BILL-SAVING
+    label: "BESS bill saving from peak shaving (indicative)"
+    value: 4
+    unit: "% of annual bill"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["bess"]
+    caveat: "Indicative peak-shaving saving. Requires interval/demand data to confirm."
+
+  - id: ASM-TARIFF-ESCALATION
+    label: "Grid tariff escalation (planning assumption)"
+    value: 3.0
+    unit: "%/year"
+    source_id: SRC-DEMO-SEED
+    confidence: demo
+    reviewer_status: demo_seed
+    affected_scenarios: ["baseline_grid", "solar_atap", "cress", "bess", "solar_cress"]
+    caveat: "Planning assumption only. Not a forecast. Shown for context; annual figures are un-escalated."

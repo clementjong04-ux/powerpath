@@ -1,0 +1,30 @@
+{
+  "$schema_note": "Demo fixture representing ONE detected source change awaiting human review. This is how the closed loop is dramatised in the demo. No live connection is used; this is seeded data.",
+  "id": "MU-CRESS-SAC-2026-07-01",
+  "source_id": "SRC-CRESS-SAC",
+  "source_name": "ST / PETRA CRESS — System Access Charge (SAC) monitor",
+  "detected_at": "2026-07-01T09:12:00+08:00",
+  "status": "needs_review",
+  "grade": "demo",
+  "summary": "Source monitor detected a change to the CRESS System Access Charge reference.",
+  "affects_assumption": "ASM-CRESS-SAC",
+  "affected_scenarios": ["cress", "solar_cress"],
+  "change": {
+    "field": "CRESS System Access Charge",
+    "unit": "MYR/kWh",
+    "before": { "value": 0.08, "state": "provisional", "reviewer_status": "needs_review" },
+    "after": { "value": 0.045, "state": "detected", "reviewer_status": "needs_review" }
+  },
+  "on_approval": {
+    "creates_assumption_version": "0.2",
+    "reruns_scenarios": true,
+    "refreshes_memo": true
+  },
+  "review": {
+    "reviewer_status": "needs_review",
+    "reviewed_by": null,
+    "reviewed_at": null,
+    "note": "No change is applied to scenarios or the memo until a human approves. Not an official published charge."
+  },
+  "trust_note": "Demo-grade. Detected values are shown as 'needs review' and never auto-applied. Pre-feasibility only."
+}

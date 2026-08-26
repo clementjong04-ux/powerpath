@@ -1,0 +1,99 @@
+# Malaysia tariff CATEGORY registry — v0.1 (pre-feasibility references only)
+#
+# TRUST RULES FOR THIS FILE:
+#   * Category references for labeling and study-quality only. NO prices here.
+#   * Never used for tariff-grade bill calculation — the engine derives the
+#     average unit cost from the user's own bill (annual cost ÷ annual kWh).
+#   * legacy_label is historical context only, never active billing vocabulary.
+#   * verification_status stays "pending" until a human verifies the category
+#     names against the TNB source and flips it in the registry.
+#   * Sabah (SESB) and Sarawak (SEB) are deliberately NOT listed: those modules
+#     are "coming soon" and must never silently fall back to TNB categories.
+#
+# Mirrors: supabase/migrations/0008_tariff_registry.sql (DB seed) and
+# src/lib/tariffs.ts (code fallback). If you change one, change all three.
+
+registry:
+  country: Malaysia
+  version: "0.1"
+  updated: "2026-07-06"
+  source_id: SRC-TNB-TARIFF
+
+tariffs:
+  - id: MY-TNB-LV-GEN
+    region: Peninsular Malaysia
+    utility: TNB
+    customer_segment: non_domestic
+    user_type_hint: commercial
+    supply_voltage_level: LV
+    display_name: "Non-Domestic Low Voltage — General (reference)"
+    description: "Low-voltage non-domestic connection (typically shops, offices, small commercial premises)."
+    legacy_label: "Context: historically Tariff B / C1 family (pre-2024 labels, reference only)"
+    verification_status: pending
+    official_status: pre_feasibility_reference
+    caveat: "Category reference only — not a tariff-grade rate. Average unit cost still comes from your bill."
+
+  - id: MY-TNB-LV-TOU
+    region: Peninsular Malaysia
+    utility: TNB
+    customer_segment: non_domestic
+    user_type_hint: any
+    supply_voltage_level: LV
+    display_name: "Non-Domestic Low Voltage — Time-of-Use (reference)"
+    description: "Low-voltage non-domestic with time-of-use structure (peak/off-peak periods)."
+    legacy_label: "Context: TOU variants of the LV non-domestic family (reference only)"
+    verification_status: pending
+    official_status: pre_feasibility_reference
+    caveat: "Category reference only — not a tariff-grade rate. Average unit cost still comes from your bill."
+
+  - id: MY-TNB-MV-GEN
+    region: Peninsular Malaysia
+    utility: TNB
+    customer_segment: non_domestic
+    user_type_hint: industrial
+    supply_voltage_level: MV
+    display_name: "Non-Domestic Medium Voltage — General (reference)"
+    description: "Medium-voltage non-domestic connection (typical for factories and larger commercial sites)."
+    legacy_label: "Context: historically E1 / C1 (MV) family (pre-2024 labels, reference only)"
+    verification_status: pending
+    official_status: pre_feasibility_reference
+    caveat: "Category reference only — not a tariff-grade rate. Average unit cost still comes from your bill."
+
+  - id: MY-TNB-MV-TOU
+    region: Peninsular Malaysia
+    utility: TNB
+    customer_segment: non_domestic
+    user_type_hint: industrial
+    supply_voltage_level: MV
+    display_name: "Non-Domestic Medium Voltage — Time-of-Use (reference)"
+    description: "Medium-voltage non-domestic with time-of-use structure (peak/off-peak demand management)."
+    legacy_label: "Context: historically E2 / C2 family (pre-2024 labels, reference only)"
+    verification_status: pending
+    official_status: pre_feasibility_reference
+    caveat: "Category reference only — not a tariff-grade rate. Average unit cost still comes from your bill."
+
+  - id: MY-TNB-HV-GEN
+    region: Peninsular Malaysia
+    utility: TNB
+    customer_segment: non_domestic
+    user_type_hint: industrial
+    supply_voltage_level: HV
+    display_name: "Non-Domestic High Voltage — General (reference)"
+    description: "High-voltage non-domestic connection (large industrial plants, heavy loads)."
+    legacy_label: "Context: historically E3 family (pre-2024 labels, reference only)"
+    verification_status: pending
+    official_status: pre_feasibility_reference
+    caveat: "Category reference only — not a tariff-grade rate. Average unit cost still comes from your bill."
+
+  - id: MY-TNB-HV-TOU
+    region: Peninsular Malaysia
+    utility: TNB
+    customer_segment: non_domestic
+    user_type_hint: industrial
+    supply_voltage_level: HV
+    display_name: "Non-Domestic High Voltage — Time-of-Use (reference)"
+    description: "High-voltage non-domestic with time-of-use structure."
+    legacy_label: "Context: TOU variants of the HV non-domestic family (reference only)"
+    verification_status: pending
+    official_status: pre_feasibility_reference
+    caveat: "Category reference only — not a tariff-grade rate. Average unit cost still comes from your bill."

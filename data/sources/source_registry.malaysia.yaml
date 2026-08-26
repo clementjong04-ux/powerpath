@@ -1,0 +1,162 @@
+# Malaysia source registry
+# Every assumption cites a source_id from this file. Sources provide EVIDENCE only;
+# they are never restated as Powerpath's own official claim. See docs/TRUST_RULES.md.
+#
+# This file is the source of truth for the Supabase `source_registry` table —
+# sync it with `npm run seed:sources` (upsert by id, never deletes).
+#
+# status values: connected | reference | planned | stubbed
+# cadence:     realtime | daily | weekly | monthly | on_demand | manual | none
+# parser_type: html | pdf | json_api | csv | manual | none
+# priority:    1 = highest
+#
+# VERIFICATION (added 2026-07-05, verified by Clement):
+#   verification_status: verified_official | pending | unverified | not_official_source
+#     - only verified_official sources may drive live sync or assumption updates
+#     - not_official_source (internal demo) may be displayed but never updates assumptions
+#     - pending/unverified show a warning and cannot affect scenario results
+#   official_status: free-text description of WHY the source is official (regulator,
+#     agency, utility, public API) — or internal_demo.
+
+registry:
+  country: Malaysia
+  version: "0.4"
+  updated: "2026-07-06"
+  owner_agent: live-data-agent
+
+sources:
+  - id: SRC-CRESS-SAC
+    name: "ST / PETRA CRESS — System Access Charge (SAC) monitor"
+    authority: "Suruhanjaya Tenaga (ST) / PETRA"
+    type: monitor
+    status: planned
+    monitor: true
+    url: "https://www.st.gov.my/sites/default/files/2026-03/siaran_mediaeng.pdf"
+    source_domain: "st.gov.my"
+    cadence: weekly
+    parser_type: html
+    priority: 1
+    official_status: official_regulator_ministry_reference
+    verification_status: verified_official
+    verified_by: "Clement"
+    verified_at: "2026-07-05T04:40:20Z"
+    evidence_note: "Official ST / PETRA reference for CRESS System Access Charge update."
+    covers: ["CRESS SAC", "CRESS program status"]
+    trust_note: "Detect changes -> flag 'needs review'. Never auto-apply. Not an official rate claim."
+    snapshot_policy: "Store raw + fetched_at on every read; diff on change."
+
+  - id: SRC-CRESS-GUIDELINE
+    name: "ST CRESS guideline reference"
+    authority: "Suruhanjaya Tenaga (ST)"
+    type: document
+    status: reference
+    monitor: false
+    url: "https://www.st.gov.my/resources/guidelines-corporate-renewable-energy-supply-scheme-cress"
+    source_domain: "st.gov.my"
+    cadence: manual
+    parser_type: pdf
+    priority: 2
+    official_status: official_regulator
+    verification_status: verified_official
+    verified_by: "Clement"
+    verified_at: "2026-07-05T04:40:20Z"
+    evidence_note: "Official Suruhanjaya Tenaga / Energy Commission CRESS guideline reference."
+    covers: ["CRESS eligibility", "CRESS mechanics"]
+    trust_note: "Cited as evidence for CRESS assumptions. Do not restate as our official claim."
+
+  - id: SRC-SEDA-SOLAR
+    name: "SEDA solar program reference"
+    authority: "SEDA Malaysia"
+    type: document
+    status: reference
+    monitor: false
+    url: "https://www.seda.gov.my/reportal/atap/"
+    source_domain: "seda.gov.my"
+    cadence: manual
+    parser_type: html
+    priority: 3
+    official_status: official_agency
+    verification_status: verified_official
+    verified_by: "Clement"
+    verified_at: "2026-07-05T04:40:20Z"
+    evidence_note: "Official SEDA Solar ATAP programme reference."
+    covers: ["solar program existence", "solar program context", "Solar ATAP context"]
+    trust_note: "Program context only. No guaranteed rates or eligibility promises."
+
+  - id: SRC-TNB-SOLAR-ATAP
+    name: "TNB Solar ATAP / tariff reference"
+    authority: "Tenaga Nasional Berhad (TNB)"
+    type: document
+    status: reference
+    monitor: false
+    url: "https://www.mytnb.com.my/renewable-energy/solar-accelerated-transition-action-programme"
+    source_domain: "mytnb.com.my"
+    cadence: manual
+    parser_type: html
+    priority: 3
+    official_status: utility_reference
+    verification_status: verified_official
+    verified_by: "Clement"
+    verified_at: "2026-07-05T04:40:20Z"
+    evidence_note: "Official myTNB Solar ATAP / tariff reference."
+    covers: ["rooftop / self-consumption solar", "Solar ATAP context", "tariff reference context"]
+    trust_note: "Reference for rooftop solar and tariff context. No guaranteed tariff."
+
+  - id: SRC-NASA-POWER
+    name: "NASA POWER solar resource API (Johor)"
+    authority: "NASA POWER"
+    type: api
+    status: planned
+    monitor: false
+    url: "https://power.larc.nasa.gov/docs/tutorials/service-data-request/api/"
+    source_domain: "power.larc.nasa.gov"
+    cadence: on_demand
+    parser_type: json_api
+    priority: 1
+    official_status: official_public_api
+    verification_status: verified_official
+    verified_by: "Clement"
+    verified_at: "2026-07-05T04:40:20Z"
+    evidence_note: "Official NASA POWER solar and meteorological data API reference."
+    covers: ["solar irradiance", "solar resource kWh/kWp/year"]
+    location:
+      region: "Johor, Malaysia"
+      lat: 1.4927
+      lon: 103.7414
+    trust_note: "Quantitative, real API. Cache responses as snapshots for reproducible scenarios."
+
+  - id: SRC-TNB-TARIFF
+    name: "TNB non-domestic tariff structure reference"
+    authority: "Tenaga Nasional Berhad (TNB)"
+    type: document
+    status: reference
+    monitor: false
+    url: "https://www.mytnb.com.my/tariff"
+    source_domain: "mytnb.com.my"
+    cadence: manual
+    parser_type: manual
+    priority: 2
+    official_status: official_utility_reference
+    verification_status: pending
+    evidence_note: "Backs the tariff CATEGORY registry (data/tariffs/) used by the Study Setup selector. Categories are labeling references only — no rate from this source is applied without a verified, human-approved assumption version. Pending until the category names are verified against the TNB page."
+    covers: ["non-domestic tariff category structure", "supply voltage levels"]
+    trust_note: "Category-structure reference for labeling only. Never used for tariff-grade bill calculation."
+
+  - id: SRC-DEMO-SEED
+    name: "Demo seed data"
+    authority: "Powerpath (internal demo)"
+    type: internal
+    status: stubbed
+    monitor: false
+    url: ""
+    source_domain: "internal"
+    cadence: none
+    parser_type: none
+    priority: 9
+    official_status: internal_demo
+    verification_status: not_official_source
+    verified_by: "Clement"
+    verified_at: "2026-07-05T04:40:20Z"
+    evidence_note: "Internal Powerpath demo seed data. Not an official market or tariff source."
+    covers: ["demo baseline", "illustrative assumptions"]
+    trust_note: "Demo-grade only. Must be labeled as demo/sample in the UI. Cannot receive or drive live updates."

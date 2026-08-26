@@ -1,0 +1,37 @@
+{
+  "$schema_note": "Demo-grade customer baseline for the hero demo. NOT customer-specific until a real bill or CSV is uploaded and parsed by the Bill Intelligence screen. All figures are illustrative.",
+  "id": "demo-johor-electronics-001",
+  "grade": "demo",
+  "data_source": "demo_seed",
+  "customer": {
+    "name": "Johor Electronics Manufacturing Plant (Demo)",
+    "industry": "Electronics manufacturing",
+    "country": "Malaysia",
+    "region": "Johor",
+    "grid_operator": "TNB",
+    "notes": "Fictional demo customer for the Powerpath hero demo."
+  },
+  "baseline": {
+    "annual_cost": { "value": 8400000, "unit": "MYR", "label": "Annual electricity cost" },
+    "annual_use": { "value": 18.6, "unit": "GWh", "label": "Annual electricity use" },
+    "annual_use_kwh": { "value": 18600000, "unit": "kWh", "label": "Annual electricity use (kWh)" },
+    "monthly_bill": { "value": 700000, "unit": "MYR", "label": "Representative monthly bill" },
+    "peak_demand": { "value": 4.8, "unit": "MW", "label": "Peak demand" },
+    "avg_unit_cost": { "value": 0.452, "unit": "MYR/kWh", "label": "Average unit cost" },
+    "carbon_baseline": { "value": 13760, "unit": "tCO2e/year", "label": "Carbon baseline (approx.)" }
+  },
+  "targets": {
+    "renewable_share": { "value": 40, "unit": "%", "by_year": 2030, "label": "Renewable target" }
+  },
+  "derived_notes": {
+    "avg_unit_cost_check": "annual_cost / annual_use_kwh = 8,400,000 / 18,600,000 = 0.4516 MYR/kWh (~RM0.452, consistent with stated avg unit cost).",
+    "carbon_note": "Carbon baseline is approximate and depends on the grid emission factor assumption (see assumptions file). Treat as pre-feasibility.",
+    "calculation_rule": "Deterministic code owns all derived numbers. This file holds inputs only."
+  },
+  "provenance": {
+    "created_for": "VC / MAIC demo",
+    "trust_grade": "demo",
+    "replace_with_real_data_when": "A real bill or CSV is uploaded and parsed.",
+    "caveat": "Demo-grade baseline — replace with a real bill or CSV for customer-specific figures."
+  }
+}
